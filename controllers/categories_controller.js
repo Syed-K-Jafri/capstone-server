@@ -31,6 +31,20 @@ class Categories {
         }
     }
     
+    listCategories() {
+        return async (req, res) => {
+            
+            try {
+                const result = await categoriesModel.findAndCountAll({ where: { is_deleted: false } });
+                let { count, rows } = result;
+                return res.status(200).send({ count, data: rows });
+            } catch (err) {
+                console.log('Error in listing user categories from db', err);
+                return res.status(500).json({ msg: 'Internal Server Error', error: err });
+            }
+        }
+    }
+    
     deleteCategories() {
         return async (req, res) => { 
             const { category_id } = req.body;
