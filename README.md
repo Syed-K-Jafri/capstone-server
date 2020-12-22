@@ -18,3 +18,10 @@ After installing these we need to install the node modules using below command
 Or
 - nodemon
 
+# Categories add
+You can create new projects using the postman. You need to do the post request on the below api endpoint
+- http://localhost:8081/api/category/create
+- body params 
+- { "title": "React" }
+You can change the db credentials from the file in the given below directory
+- config/config.js
