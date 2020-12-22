@@ -45,6 +45,28 @@ class Categories {
         }
     }
     
+    specificCategory() {
+        return async (req, res) => { 
+            const { id } = req.params;
+            
+            if (!req.body || !id) {
+                return res.status(400).send({ msg: 'Bad Request' });
+            }
+
+            try {
+                const result = await categoriesModel.findOne({ where: { id: id }, include: [{ model: questionModel, include: [ userModel, { model: answerModel }] }] });   
+                if (result) {
+                    return res.status(200).send({ data: result });
+                } else {
+                    return res.status(404).send({ msg: 'Category not found against this Category ID' });
+                }
+            } catch (err) {
+                console.log('Error in listing specific category from db', err);
+                return res.status(500).json({ msg: 'Internal Server Error', error: err });
+            }
+        }
+    }
+    
     deleteCategories() {
         return async (req, res) => { 
             const { category_id } = req.body;
